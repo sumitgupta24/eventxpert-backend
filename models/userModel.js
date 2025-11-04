@@ -24,7 +24,7 @@ const userSchema = mongoose.Schema(
     },
     profilePicture: {
       type: String,
-      default: 'https://i.pravatar.cc/150?img=68', // Default avatar
+      default: 'https://i.pravatar.cc/150', // Default avatar
     },
     gender: {
       type: String,
