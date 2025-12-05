@@ -1,17 +1,11 @@
 const asyncHandler = require('express-async-handler');
 const Category = require('../models/categoryModel');
 
-// @desc    Get all event categories
-// @route   GET /api/categories
-// @access  Private/Admin
 const getCategories = asyncHandler(async (req, res) => {
   const categories = await Category.find({});
   res.json(categories);
 });
 
-// @desc    Create a new event category
-// @route   POST /api/categories
-// @access  Private/Admin
 const createCategory = asyncHandler(async (req, res) => {
   const { name } = req.body;
 
@@ -28,9 +22,6 @@ const createCategory = asyncHandler(async (req, res) => {
   res.status(201).json(createdCategory);
 });
 
-// @desc    Update an event category
-// @route   PUT /api/categories/:id
-// @access  Private/Admin
 const updateCategory = asyncHandler(async (req, res) => {
   const { name } = req.body;
 
@@ -46,9 +37,6 @@ const updateCategory = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Delete an event category
-// @route   DELETE /api/categories/:id
-// @access  Private/Admin
 const deleteCategory = asyncHandler(async (req, res) => {
   const category = await Category.findById(req.params.id);
 

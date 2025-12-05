@@ -24,7 +24,7 @@ const userSchema = mongoose.Schema(
     },
     profilePicture: {
       type: String,
-      default: 'https://i.pravatar.cc/150', // Default avatar
+      default: 'https://i.pravatar.cc/150',
     },
     gender: {
       type: String,
@@ -33,7 +33,7 @@ const userSchema = mongoose.Schema(
     rollNo: {
       type: String,
       unique: true,
-      sparse: true, // Allows null values to not violate unique constraint
+      sparse: true,
     },
     department: {
       type: String,

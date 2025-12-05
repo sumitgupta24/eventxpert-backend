@@ -1,17 +1,13 @@
 const asyncHandler = require('express-async-handler');
 const SystemSetting = require('../models/systemSettingModel');
 
-// @desc    Get all system settings
-// @route   GET /api/settings
-// @access  Private/Admin
+
 const getSystemSettings = asyncHandler(async (req, res) => {
   const settings = await SystemSetting.find({});
   res.json(settings);
 });
 
-// @desc    Update a system setting
-// @route   PUT /api/settings/:id
-// @access  Private/Admin
+
 const updateSystemSetting = asyncHandler(async (req, res) => {
   const { settingValue } = req.body;
 

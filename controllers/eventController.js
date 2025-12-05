@@ -4,9 +4,7 @@ const User = require('../models/userModel'); // Added User model import
 const { v4: uuidv4 } = require('uuid'); // Import uuid
 const { uploadImage } = require('../config/cloudinary'); // Import uploadImage helper
 
-// @desc    Get all events with search, filter, and sort
-// @route   GET /api/events
-// @access  Public
+
 const getEvents = asyncHandler(async (req, res) => {
   const keyword = req.query.keyword
     ? {
@@ -48,9 +46,7 @@ const getEvents = asyncHandler(async (req, res) => {
   res.json(events);
 });
 
-// @desc    Get single event by ID
-// @route   GET /api/events/:id
-// @access  Public
+
 const getEventById = asyncHandler(async (req, res) => {
   const event = await Event.findById(req.params.id).populate('organizer', 'name email');
 
@@ -62,9 +58,6 @@ const getEventById = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Create an event
-// @route   POST /api/events
-// @access  Private/Organizer
 const createEvent = asyncHandler(async (req, res) => {
   const { title, description, date, startTime, endTime, location, category, eventImage } = req.body;
 
@@ -91,9 +84,7 @@ const createEvent = asyncHandler(async (req, res) => {
   res.status(201).json(createdEvent);
 });
 
-// @desc    Update an event
-// @route   PUT /api/events/:id
-// @access  Private/Organizer
+
 const updateEvent = asyncHandler(async (req, res) => {
   const { title, description, date, startTime, endTime, location, category, eventImage } = req.body;
 
@@ -132,9 +123,6 @@ const updateEvent = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Delete an event
-// @route   DELETE /api/events/:id
-// @access  Private/Organizer/Admin
 const deleteEvent = asyncHandler(async (req, res) => {
   const event = await Event.findById(req.params.id);
 
@@ -152,17 +140,13 @@ const deleteEvent = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Get events created by the logged-in organizer
-// @route   GET /api/events/myevents
-// @access  Private/Organizer
+
 const getMyEvents = asyncHandler(async (req, res) => {
   const events = await Event.find({ organizer: req.user._id }).populate('organizer', 'name email');
   res.json(events);
 });
 
-// @desc    Register student for an event
-// @route   POST /api/events/:id/register
-// @access  Private/Student
+
 const registerEvent = asyncHandler(async (req, res) => {
   const event = await Event.findById(req.params.id);
 
@@ -208,9 +192,6 @@ const registerEvent = asyncHandler(async (req, res) => {
 const qrcode = require('qrcode');
 const jwt = require('jsonwebtoken');
 
-// @desc    Generate QR code for an event
-// @route   GET /api/events/:id/qrcode
-// @access  Private/Organizer, Student (for own registered events)
 const generateEventQRCode = asyncHandler(async (req, res) => {
   const eventId = req.params.id;
   const userId = req.user._id;
@@ -234,9 +215,7 @@ const generateEventQRCode = asyncHandler(async (req, res) => {
   res.json({ qrCode: registeredEvent.registrationCode });
 });
 
-// @desc    Verify QR code
-// @route   POST /api/events/verifyqr
-// @access  Private/Organizer
+
 const verifyQRCode = asyncHandler(async (req, res) => {
   const { qrCode } = req.body; // Changed from qrToken to qrCode
 
@@ -281,17 +260,12 @@ const verifyQRCode = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Get all pending events (for admin approval)
-// @route   GET /api/events/pending
-// @access  Private/Admin
+
 const getPendingEvents = asyncHandler(async (req, res) => {
   const events = await Event.find({ isApproved: false }).populate('organizer', 'name email');
   res.json(events);
 });
 
-// @desc    Approve an event
-// @route   PUT /api/events/:id/approve
-// @access  Private/Admin
 const approveEvent = asyncHandler(async (req, res) => {
   const event = await Event.findById(req.params.id);
 
@@ -305,9 +279,7 @@ const approveEvent = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Reject an event (set isApproved to false)
-// @route   PUT /api/events/:id/reject
-// @access  Private/Admin
+
 const rejectEvent = asyncHandler(async (req, res) => {
   const event = await Event.findById(req.params.id);
 
