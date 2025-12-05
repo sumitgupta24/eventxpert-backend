@@ -3,9 +3,6 @@ const User = require('../models/userModel');
 const Event = require('../models/eventModel');
 const Category = require('../models/categoryModel');
 
-// @desc    Get Admin Dashboard Stats
-// @route   GET /api/admin/stats
-// @access  Private/Admin
 const getAdminStats = asyncHandler(async (req, res) => {
   const totalUsers = await User.countDocuments();
   const totalEvents = await Event.countDocuments();
@@ -22,9 +19,6 @@ const getAdminStats = asyncHandler(async (req, res) => {
   });
 });
 
-// @desc    Get Event Count by Category for Charts
-// @route   GET /api/admin/event-category-counts
-// @access  Private/Admin
 const getEventCategoryCounts = asyncHandler(async (req, res) => {
   const categoryCounts = await Event.aggregate([
     { $group: { _id: '$category', count: { $sum: 1 } } },
@@ -34,9 +28,6 @@ const getEventCategoryCounts = asyncHandler(async (req, res) => {
   res.json(categoryCounts);
 });
 
-// @desc    Get Event Count by Month for Charts
-// @route   GET /api/admin/event-month-counts
-// @access  Private/Admin
 const getEventMonthCounts = asyncHandler(async (req, res) => {
   const monthCounts = await Event.aggregate([
     { $group: { _id: { $dateToString: { format: '%Y-%m', date: '$date' } }, count: { $sum: 1 } } },
